@@ -1,5 +1,26 @@
 from config import MAX_CHARS
 import os
+from google.genai import types
+
+schema_get_files_info = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Retrieves the contents of a file, up to a reasonable token limit",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="File path to retrieve contents from, relative to the working directory",
+            ),
+        },
+        required=["file_path"]
+    ),
+)
+
+available_functions = types.Tool(
+    function_declarations=[schema_get_files_info],
+)
+
 
 def get_file_content(working_directory, file_path):
 

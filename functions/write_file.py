@@ -1,4 +1,28 @@
 import os
+from google.genai import types
+
+schema_get_files_info = types.FunctionDeclaration(
+    name="write_file",
+    description="Writes sting contents to a local file",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="File path of the file to write to, relative to the working directory",
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="Content to be written to the file",
+            ),
+        },
+        required=["file_path", "content"]
+    ),
+)
+
+available_functions = types.Tool(
+    function_declarations=[schema_get_files_info],
+)
 
 def write_file(working_directory, file_path, content):
 
